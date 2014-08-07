@@ -1,0 +1,19 @@
+{
+    "name": "jsPlumb",
+    "description": "pipe up your life",
+    "version": "1.6.2",
+    "keywords": [
+        "javascript",
+        "awesome",
+        "tricks"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/tpisto/jsPlumb.git"
+    },
+    "dependencies": {
+        "components/jquery": "*",
+        "components/jqueryui": "1.10.4"
+    },
+    "scripts": ["dist/js/jquery.jsPlumb-1.6.2-min.js"]
+}
