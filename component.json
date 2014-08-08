@@ -7,7 +7,7 @@
         "awesome",
         "tricks"
     ],
-    "repo": "tpisto/jsplubm",
+    "repo": "tpisto/jsplumb",
     "dependencies": {
         "components/jquery": "*",
         "components/jqueryui": "1.10.4"
