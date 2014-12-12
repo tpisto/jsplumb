@@ -1,7 +1,7 @@
 /*
  * jsPlumb
  * 
- * Title:jsPlumb 1.6.2
+ * Title:jsPlumb 1.7.2
  * 
  * Provides a way to visually connect elements on an HTML page, using SVG or VML.  
  * 
@@ -57,6 +57,7 @@
 	},
 	_pos = function(d) { return "position:absolute;left:" + d[0] + "px;top:" + d[1] + "px"; },	
 	_clearGradient = function(parent) {
+        // TODO use querySelectorAll here instead?
 		for (var i = 0; i < parent.childNodes.length; i++) {
 			if (parent.childNodes[i].tagName == DEFS || parent.childNodes[i].tagName == LINEAR_GRADIENT || parent.childNodes[i].tagName == RADIAL_GRADIENT)
 				parent.removeChild(parent.childNodes[i]);
@@ -74,14 +75,10 @@
 		// issue 244 suggested the 'gradientUnits' attribute; without this, straight/flowchart connectors with gradients would
 		// not show gradients when the line was perfectly horizontal or vertical.
 		var g;
-		if (!style.gradient.offset) {
+		if (!style.gradient.offset)
 			g = _node(LINEAR_GRADIENT, {id:id, gradientUnits:"userSpaceOnUse"});
-		}
-		else {
-			g = _node(RADIAL_GRADIENT, {
-				id:id
-			});			
-		}
+		else
+			g = _node(RADIAL_GRADIENT, { id:id });
 		
 		var defs = _node(DEFS);
 		parent.appendChild(defs);
@@ -107,7 +104,7 @@
 	_applyStyles = function(parent, node, style, dimensions, uiComponent) {
 		
 		node.setAttribute(FILL, style.fillStyle ? jsPlumbUtil.convertStyle(style.fillStyle, true) : NONE);
-			node.setAttribute(STROKE, style.strokeStyle ? jsPlumbUtil.convertStyle(style.strokeStyle, true) : NONE);
+		node.setAttribute(STROKE, style.strokeStyle ? jsPlumbUtil.convertStyle(style.strokeStyle, true) : NONE);
 			
 		if (style.gradient) {
 			_updateGradient(parent, node, style, dimensions, uiComponent);			
@@ -256,10 +253,15 @@
 	
 	jsPlumbUtil.extend(SvgComponent, jsPlumb.jsPlumbUIComponent, {
 		cleanup:function() {
+            if (this.canvas) this.canvas._jsPlumb = null;
+            if (this.svg) this.svg._jsPlumb = null;
+            if (this.bgCanvas) this.bgCanvas._jsPlumb = null;
+
 			if (this.canvas && this.canvas.parentNode) this.canvas.parentNode.removeChild(this.canvas);
+            if (this.bgCanvas && this. bgCanvas.parentNode) this.canvas.parentNode.removeChild(this.canvas);
+
 			this.svg = null;
 			this.canvas = null;
-			this.bgCanvas = null;
 			this.path = null;			
 			this.group = null;
 		},
@@ -267,16 +269,13 @@
 			if (this.canvas) {
 				this.canvas.style.display = v ? "block" : "none";
 			}
-			if (this.bgCanvas) {
-				this.bgCanvas.style.display = v ? "block" : "none";
-			}
 		}
 	});
 	
 	/*
 	 * Base class for SVG connectors.
 	 */ 
-	var SvgConnector = jsPlumb.ConnectorRenderers.svg = function(params) {
+	jsPlumb.ConnectorRenderers.svg = function(params) {
 		var self = this,
 			_super = SvgComponent.apply(this, [ { 
 				cssClass:params._jsPlumb.connectorClass, 
@@ -312,30 +311,19 @@
 					}, 
 	                outlineStyle = null,
 	                d = [self.x,self.y,self.w,self.h];
-					
-				var mouseInOutFilters = {
-					"mouseenter":function(e) {
-						var rt = e.relatedTarget;
-						return rt == null || (rt != self.path && rt != self.bgPath);
-					},
-					"mouseout":function(e) {
-						var rt = e.relatedTarget;
-						return rt == null || (rt != self.path && rt != self.bgPath);
-					}
-				};
-				
+
 				// outline style.  actually means drawing an svg object underneath the main one.
 				if (style.outlineColor) {
 					var outlineWidth = style.outlineWidth || 1,
 						outlineStrokeWidth = style.lineWidth + (2 * outlineWidth);
 					outlineStyle = jsPlumb.extend({}, style);
+                    delete outlineStyle.gradient;
 					outlineStyle.strokeStyle = jsPlumbUtil.convertStyle(style.outlineColor);
 					outlineStyle.lineWidth = outlineStrokeWidth;
 					
 					if (self.bgPath == null) {
 						self.bgPath = _node("path", a);
-				    	_appendAtIndex(self.svg, self.bgPath, 0);
-			    		self.attachListeners(self.bgPath, self, mouseInOutFilters);
+                        _appendAtIndex(self.svg, self.bgPath, 0);
 					}
 					else {
 						_attr(self.bgPath, a);
@@ -346,8 +334,7 @@
 				
 		    	if (self.path == null) {
 			    	self.path = _node("path", a);
-					_appendAtIndex(self.svg, self.path, style.outlineColor ? 1 : 0);
-			    	self.attachListeners(self.path, self, mouseInOutFilters);	    		    		
+                    _appendAtIndex(self.svg, self.path, style.outlineColor ? 1 : 0);
 		    	}
 		    	else {
 		    		_attr(self.path, a);
@@ -355,12 +342,7 @@
 		    		    	
 		    	_applyStyles(self.svg, self.path, style, d, self);
 		    }
-		};
-		
-		this.reattachListeners = function() {
-			if (this.bgPath) this.reattachListenersForElement(this.bgPath, this);
-			if (this.path) this.reattachListenersForElement(this.path, this);
-		};
+		};		
 	};
 	jsPlumbUtil.extend(jsPlumb.ConnectorRenderers.svg, SvgComponent);
 
@@ -415,7 +397,6 @@
 			if (this.node == null) {
 				this.node = this.makeNode(s);
 				this.svg.appendChild(this.node);
-				this.attachListeners(this.node, this);
 			}
 			else if (this.updateNode != null) {
 				this.updateNode(this.node);
@@ -425,11 +406,7 @@
 		}.bind(this);
 				
 	};
-	jsPlumbUtil.extend(SvgEndpoint, SvgComponent, {
-		reattachListeners : function() {
-			if (this.node) this.reattachListenersForElement(this.node, this);
-		}
-	});
+	jsPlumbUtil.extend(SvgEndpoint, SvgComponent);
 	
 	/*
 	 * SVG Dot Endpoint
@@ -508,8 +485,6 @@
 	    			params.component.svg.appendChild(this.path);
 	    			
 	    			this.canvas = params.component.svg; // for the sake of completeness; this behaves the same as other overlays
-	    			this.attachListeners(this.path, params.component);
-	    			this.attachListeners(this.path, this);
 	    		}
 	    		var clazz = originalArgs && (originalArgs.length == 1) ? (originalArgs[0].cssClass || "") : "",
 	    			offset = [0,0];
@@ -533,9 +508,6 @@
     				" L" + d.tail[1].x + "," + d.tail[1].y + 
     				" L" + d.hxy.x + "," + d.hxy.y;
     	};
-    	this.reattachListeners = function() {
-			if (this.path) this.reattachListenersForElement(this.path, this);
-		};		
     };
     jsPlumbUtil.extend(AbstractSvgArrowOverlay, [jsPlumb.jsPlumbUIComponent, jsPlumb.Overlays.AbstractOverlay], {
     	cleanup : function() {

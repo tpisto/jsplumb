@@ -1,7 +1,7 @@
 /*
  * jsPlumb
  * 
- * Title:jsPlumb 1.6.2
+ * Title:jsPlumb 1.7.2
  * 
  * Provides a way to visually connect elements on an HTML page, using SVG or VML.  
  * 
@@ -193,7 +193,7 @@
 	/*
 	 * Base class for Vml connectors. extends VmlComponent.
 	 */
-	var VmlConnector = jsPlumb.ConnectorRenderers.vml = function(params) {		
+	var VmlConnector = jsPlumb.ConnectorRenderers.vml = function(params, component) {
 		this.strokeNode = null;
 		this.canvas = null;
 		VmlComponent.apply(this, arguments);
@@ -230,9 +230,9 @@
 						p.coordsize = (d[2] * scale) + "," + (d[3] * scale);
 						this.bgCanvas = _node("shape", d, p, params.parent, this._jsPlumb.instance, true);						
 						_pos(this.bgCanvas, d);
-						this.appendDisplayElement(this.bgCanvas, true);	
-						this.attachListeners(this.bgCanvas, this);					
-						this.initOpacityNodes(this.bgCanvas, ["stroke"]);		
+						this.appendDisplayElement(this.bgCanvas, true);
+						this.initOpacityNodes(this.bgCanvas, ["stroke"]);
+                        this.bgCanvas._jsPlumb = component;
 					}
 					else {
 						p.coordsize = (d[2] * scale) + "," + (d[3] * scale);
@@ -248,9 +248,9 @@
 					p["class"] = clazz;
 					p.coordsize = (d[2] * scale) + "," + (d[3] * scale);					
 					this.canvas = _node("shape", d, p, params.parent, this._jsPlumb.instance, true);					                                    
-					this.appendDisplayElement(this.canvas, true);										
-					this.attachListeners(this.canvas, this);					
-					this.initOpacityNodes(this.canvas, ["stroke"]);		
+					this.appendDisplayElement(this.canvas, true);
+					this.initOpacityNodes(this.canvas, ["stroke"]);
+                    this.canvas._jsPlumb = component;
 				}
 				else {
 					p.coordsize = (d[2] * scale) + "," + (d[3] * scale);
@@ -264,9 +264,6 @@
 				
 	};
 	jsPlumbUtil.extend(VmlConnector, VmlComponent, {
-		reattachListeners : function() {
-			if (this.canvas) this.reattachListenersForElement(this.canvas, this);
-		},
 		setVisible:function(v) {
 			if (this.canvas) {
 				this.canvas.style.display = v ? "block" : "none";
@@ -302,9 +299,8 @@
 			if (this._jsPlumb.vml == null) {
 				p["class"] = this._jsPlumb.clazz;
 				vml = this._jsPlumb.vml = this.getVml([0,0, this.w, this.h], p, anchor, this.canvas, this._jsPlumb.instance);				
-				this.attachListeners(vml, this);
 
-				this.appendDisplayElement(vml, true);
+                this.appendDisplayElement(vml, true);
 				this.appendDisplayElement(this.canvas, true);
 				
 				this.initOpacityNodes(vml, ["fill"]);			
@@ -317,11 +313,7 @@
 			_applyStyles(vml, style, this);
 		};		
 	};
-	jsPlumbUtil.extend(VmlEndpoint, VmlComponent, {
-		reattachListeners : function() {
-			if (this._jsPlumb.vml) this.reattachListenersForElement(this._jsPlumb.vml, this);
-		}
-	});
+	jsPlumbUtil.extend(VmlEndpoint, VmlComponent);
 	
 // ******************************* vml segments *****************************************************	
 		
@@ -467,8 +459,6 @@
 	    			p["class"] = clazz + " " + overlayClass;
 					self.canvas = _node("shape", dim, p, connector.canvas.parentNode, connector._jsPlumb.instance, true);								
 					connector.appendDisplayElement(self.canvas, true);
-					self.attachListeners(self.canvas, connector);
-					self.attachListeners(self.canvas, self);
 				}
 				else {				
 					_pos(self.canvas, dim);
@@ -476,11 +466,6 @@
 				}    		
 			}
     	};
-    	
-    	this.reattachListeners = function() {
-			if (this.canvas) this.reattachListenersForElement(self.canvas, this);
-		};
-
 		this.cleanup = function() {
     		if (this.canvas != null) this._jsPlumb.instance.removeElement(this.canvas);
     	};

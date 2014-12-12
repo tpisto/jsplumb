@@ -9,7 +9,7 @@
         
         
 
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" href="../css/jsplumb.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     </head>
@@ -36,20 +36,19 @@
 			<div id="links">
 				<h3>Unit Tests</h3>
 				<ul>
-					<li><h5>SVG</h5></li>
 					<li><a href="qunit-svg-dom-instance.html">Vanilla</a></li>
 					<li><a href="qunit-svg-jquery-instance.html">jQuery</a></li>
-					<li><a href="qunit-svg-mootools-instance.html">MooTools</a></li>
-					<li><a href="qunit-svg-yui-instance.html">YUI</a></li>
-					
 				</ul>
 				<h3>Load Tests</h3>
+                <h5>Connections</h5>
 				<ul>
 					<li><a href="loadtest-dom.html">Vanilla</a></li>
 					<li><a href="loadtest-jquery.html">jQuery</a></li>
-					<li><a href="loadtest-mootools.html">MooTools</a></li>
-					<li><a href="loadtest-yui.html">YUI</a></li>
 				</ul>
+                <h5>Endpoints</h5>
+                <ul>
+                    <li><a href="endpoint-loadtest-dom.html">Vanilla</a></li>
+                </ul>
 			</div>
 			<iframe src="" id="iframe"></iframe>
 		</div> 
@@ -78,21 +77,17 @@
             </div>
         </div>        
         <script type="text/javascript">
-        var sc_project=9494764; 
-        var sc_invisible=1; 
-        var sc_security="91a51706"; 
-        var scJsHost = (("https:" == document.location.protocol) ?
-        "https://secure." : "http://www.");
-        document.write("<sc"+"ript type='text/javascript' src='" +
-        scJsHost+
-        "statcounter.com/counter/counter.js'></"+"script>");
-        </script>
-        <noscript><div class="statcounter"><a title="free hit
-        counter" href="http://statcounter.com/free-hit-counter/"
-        target="_blank"><img class="statcounter"
-        src="http://c.statcounter.com/9494764/0/91a51706/1/"
-        alt="free hit counter"></a></div></noscript>
 
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15400992-4']);
+    _gaq.push(['_trackPageview']);
 
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
     </body>
 </html>

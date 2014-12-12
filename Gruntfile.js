@@ -1,30 +1,27 @@
 
 var versions = {
         JS_BEZIER : { f:"jsBezier", v:"0.6" },
-        BILTONG : { f:"biltong", v:"0.2" }, 
-        MOTTLE : {f:"mottle", v:"0.3" },
-        KATAVORIO : {f:"katavorio", v:"0.2" }
+        BILTONG : { f:"biltong", v:"0.2" },
+        MOTTLE : {f:"mottle", v:"0.4" },
+        KATAVORIO : {f:"katavorio", v:"0.4" }
     },
-    get = function(name) { return "lib/" + versions[name].f + "-" + versions[name].v + ".js"; },    
-    
-    libraries = [ "jquery", "mootools", "yui", "dom" ],
-    libraryNames = [ "jQuery", "MooTools", "YUI3", "Vanilla" ],
+    get = function(name) { return "lib/" + versions[name].f + "-" + versions[name].v + ".js"; },
+
+    libraries = [ "jquery", "dom" ],
+    libraryNames = [ "jQuery", "Vanilla" ],
     renderers = [ "svg", "vml" ],
-    demos = [ 
-        [ "home", "Kitchen Sink" ], 
-        [ "flowchart", "Flowchart" ], 
-        [ "statemachine", "State Machine" ],  
-        [ "draggableConnectors", "Drag and Drop"], 
-        [ "perimeterAnchors", "Perimeter Anchors"], 
-        [ "chart", "Hierarchical Chart" ], 
-        [ "sourcesAndTargets", "Sources and Targets" ], 
-        [ "dynamicAnchors", "Dynamic Anchors" ], 
-        [ "animation", "Animation" ] 
+    demos = [
+        [ "flowchart", "Flowchart" ],
+        [ "statemachine", "State Machine" ],
+        [ "draggableConnectors", "Drag and Drop"],
+        [ "perimeterAnchors", "Perimeter Anchors"],
+        [ "chart", "Hierarchical Chart" ],
+        [ "sourcesAndTargets", "Sources and Targets" ],
+        [ "dynamicAnchors", "Dynamic Anchors" ],
+        [ "animation", "Animation" ]
     ],
     extraLibraries = {
-        jquery:[],
-        mootools:[],
-        yui:[],
+        jquery:[ get("MOTTLE") ],
         dom:[ get("MOTTLE"), get("KATAVORIO") ]
     }
     objects = {
@@ -35,7 +32,7 @@ var versions = {
             "svg", "vml"
         ],
         common:[
-            'util.js', 'dom-adapter.js', 'jsPlumb.js', 'endpoint.js', 'connection.js', 'anchors.js', 'defaults.js'
+            'util.js', 'browser-util.js', 'dom-adapter.js', 'jsPlumb.js', 'endpoint.js', 'connection.js', 'anchors.js', 'defaults.js', 'base-library-adapter.js'
         ]
     },
     optionList = function(grunt, type) {
@@ -139,13 +136,18 @@ module.exports = function(grunt) {
                 files:[
                     { expand:true, cwd:"jekyll/_site", src:"**/*.*", dest:"dist" }
                 ]
+            },
+            external:{
+                files:[
+                    { expand:true, cwd:"external", src:"*.*", dest:"jekyll/external" }
+                ]
             }
         },
         clean:{
             options:{
                 force:true
             },
-            stage:[ "jekyll/doc", "jekyll/apidocs", "jekyll/demo", "jekyll/tests", "jekyll/css", "jekyll/js", "jekyll/img" ],
+            stage:[ "jekyll/doc", "jekyll/apidocs", "jekyll/demo", "jekyll/tests", "jekyll/css", "jekyll/js", "jekyll/img", "jekyll/external" ],
             site: [ 'jekyll/_site' ]
         },
         jshint: {
@@ -160,7 +162,7 @@ module.exports = function(grunt) {
 				  '-W055':true
                 },
             files:{
-                src: ['src/anchors.js', 'src/util.js', 'src/connection.js', 'src/connectors-bezier.js', 'src/connectors-flowchart.js', 'src/connectors-statemachine.js', 'src/defaults.js', 'src/dom-adapter.js', 'src/endpoint.js', 'src/dom.jsPlumb.js', 'src/jquery.jsPlumb.js', 'src/mootools.jsPlumb.js', 'src/renderers-svg.js', 'src/renderers-vml.js', 'src/yui.jsPlumb.js', 'src/jsPlumb.js']
+                src: [ 'src/base-library-adapter.js', 'src/anchors.js', 'src/util.js', 'src/browser-util.js', 'src/connection.js', 'src/connectors-bezier.js', 'src/connectors-flowchart.js', 'src/connectors-statemachine.js', 'src/defaults.js', 'src/dom-adapter.js', 'src/endpoint.js', 'src/dom.jsPlumb.js', 'src/jquery.jsPlumb.js', 'src/renderers-svg.js', 'src/renderers-vml.js', 'src/jsPlumb.js']
             }
         },
         watch: {
@@ -192,9 +194,9 @@ module.exports = function(grunt) {
                     outdir: 'jekyll/apidocs/',
                     helpers:['jekyll/yuitheme/helpers.js']
                 }
-                
+
             }
-        }         
+        }
     });
 
     // Load the plugin that provides the "docular" tasks.
@@ -258,7 +260,7 @@ module.exports = function(grunt) {
                     library:libraries[i],
                     renderer:renderers[j],
                     base:".."
-                }); 
+                });
                 grunt.file.write("jekyll/tests/qunit-" + renderers[j] + "-"  + libraries[i] + "-instance.html", frontMatter);
             }
         }
@@ -273,7 +275,7 @@ module.exports = function(grunt) {
                 library:libraries[i],
                 libraryName:libraryNames[i],
                 base:".."
-            }); 
+            });
             grunt.file.write("jekyll/tests/loadtest-"  + libraries[i] + ".html", frontMatter + lt);
         }
 
@@ -319,7 +321,7 @@ module.exports = function(grunt) {
     grunt.registerTask('createTests', _createTests);
     grunt.registerTask('createDemos', _createDemos);
     grunt.registerTask('prepare', _prepareSite);
-    grunt.registerTask("build", [ 'build-src', 'clean:stage', 'prepare', 'copy:site', 'copy:tests', 'copy:js', 'copy:demos', 'yuidoc', 'createTests', 'createDemos',  'writeIndex', 'jekyll', 'copy:dist', 'clean:stage', 'clean:site' ]);
+    grunt.registerTask("build", [ 'build-src', 'clean:stage', 'prepare', 'copy:site', 'copy:tests', 'copy:js', 'copy:demos', 'copy:external', 'yuidoc', 'createTests', 'createDemos',  'writeIndex', 'jekyll', 'copy:dist', 'clean:stage', 'clean:site' ]);
     grunt.registerTask('build-src', ['clean', 'jshint', 'prepare', 'concat', 'uglify' ]);
     grunt.registerTask('default', ['help']);
     grunt.registerTask('build-all', ['qunit', 'build']);
@@ -341,7 +343,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('update', function() {
         var newV = grunt.option("newver");
-        if (newV ===null) {
+        if (newV == null) {
             grunt.log.error("You must provide the new version: grunt update --newver=X.X.X");
         }
         else {
@@ -352,6 +354,7 @@ module.exports = function(grunt) {
             _replace(".", "bower.json", oldV, newV);
             _replace(".", "package.json", oldV, newV);
             _replace(".", "README.md", oldV, newV);
+            _replace("jekyll", "**/*.*", oldV, newV);
         }
 
     });

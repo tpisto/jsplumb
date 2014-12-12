@@ -1,7 +1,7 @@
 /*
  * jsPlumb
  * 
- * Title:jsPlumb 1.6.2
+ * Title:jsPlumb 1.7.2
  * 
  * Provides a way to visually connect elements on an HTML page, using SVG or VML.  
  * 
@@ -18,9 +18,12 @@
 
 	"use strict";
 
-	 var _getDragManager = function(instance, isPlumbedComponent) {
-		var k = instance[isPlumbedComponent ? "_internalKatavorio" : "_katavorio"],
-			e = _getEventManager(instance);
+	 var _getDragManager = function(instance, category) {
+
+        category = category || "main";
+        var key = "_katavorio_" + category;
+		var k = instance[key],
+			e = instance.getEventManager();
 			
 		if (!k) {
 			k = new Katavorio( {
@@ -49,19 +52,11 @@
 					hover:"jsplumb-drag-hover"
 				}
 			});
-			instance[isPlumbedComponent ? "_internalKatavorio" : "_katavorio"] = k;
+			instance[key] = k;
 			instance.bind("zoom", k.setZoom);
 		}
 		return k;
 	};
-
-	 var _getEventManager = function(instance) {
-		 var e = instance._mottle;
-		 if (!e) {
-			 e = instance._mottle = new Mottle();
-		 }
-		 return e;
-	 };
 	 
 	 var _animProps = function(o, p) {
 		var _one = function(pName) {
@@ -80,6 +75,10 @@
 	 };
 
 	jsPlumb.extend(jsPlumbInstance.prototype, {
+
+        scopeChange:function(el, elId, endpoints, scope, types) {
+
+        },
 	
 		getDOMElement:function(el) { 
 			if (el == null) return null;
@@ -93,7 +92,7 @@
 		getElementObject:function(el) { return el; },
 		removeElement : function(element) {
 			_getDragManager(this).elementRemoved(element);
-			_getEventManager(this).remove(element);
+			this.getEventManager().remove(element);
 		},
 		//
 		// this adapter supports a rudimentary animation function. no easing is supported.  only
@@ -140,17 +139,17 @@
 			return sel;
 		},
 		// DRAG/DROP
-		destroyDraggable:function(el) {
-			_getDragManager(this).destroyDraggable(el);
+		destroyDraggable:function(el, category) {
+			_getDragManager(this, category).destroyDraggable(el);
 		},
-		destroyDroppable:function(el) {
-			_getDragManager(this).destroyDroppable(el);
+		destroyDroppable:function(el, category) {
+			_getDragManager(this, category).destroyDroppable(el);
 		},
-		initDraggable : function(el, options, isPlumbedComponent) {
-			_getDragManager(this, isPlumbedComponent).draggable(el, options);
+		initDraggable : function(el, options, category) {
+			_getDragManager(this, category).draggable(el, options);
 		},
-		initDroppable : function(el, options, isPlumbedComponent) { 
-			_getDragManager(this, isPlumbedComponent).droppable(el, options);
+		initDroppable : function(el, options, category) {
+			_getDragManager(this, category).droppable(el, options);
 		},
 		isAlreadyDraggable : function(el) { return el._katavorioDrag != null; },
 		isDragSupported : function(el, options) { return true; },
@@ -207,27 +206,18 @@
 		clearDragSelection:function() {
 			_getDragManager(this).deselectAll();
 		},
-//           EVENTS
-		trigger : function(el, event, originalEvent) { 
-			_getEventManager(this).trigger(el, event, originalEvent);
-		},
-		getOriginalEvent : function(e) { return e; },
-		on : function(el, event, callback) {
-			// TODO: here we would like to map the tap event if we know its
-			// an internal bind to a click. we have to know its internal because only
-			// then can we be sure that the UP event wont be consumed (tap is a synthesized
-			// event from a mousedown followed by a mouseup).
-			//event = { "click":"tap", "dblclick":"dbltap"}[event] || event;
-			_getEventManager(this).on.apply(this, arguments);
-		},
-		off : function(el, event, callback) {
-			_getEventManager(this).off.apply(this, arguments);
-		}
-	});
+        getOriginalEvent : function(e) { return e; },
+        // each adapter needs to use its own trigger method, because it triggers a drag. Mottle's trigger method
+        // works perfectly well but does not cause a drag to start with jQuery. Presumably this is due to some
+        // intricacy in the way in which jQuery UI's draggable method registers events.
+        trigger : function(el, event, originalEvent) {
+            this.getEventManager().trigger(el, event, originalEvent);
+        }
+    });
 
 	var ready = function (f) {
 		var _do = function() {
-			if (/complete|loaded|interactive/.test(document.readyState) && typeof(document.body) != "1.6.2" && document.body != null)
+			if (/complete|loaded|interactive/.test(document.readyState) && typeof(document.body) != "undefined" && document.body != null)
 	            f();	        
 	        else
 	            setTimeout(_do, 9);

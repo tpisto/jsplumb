@@ -84,7 +84,7 @@
 * @param {String} [params.pointer-events] Optional `pointer-events` value for the Connection (only used by the SVG renderer)
 * @param {Object} referenceParams Optional second set of parameters, which will be merged into a new object along with `params`. This can be useful if
 * you have some common settings to share between multiple `connect` calls. Valid values in this object are anything that is valid in `params`.
-* @return {Connection} The Connection that was created.
+* @return {Connection} The Connection that was created, or null if either the source or target element was not found (in which case the missin element is also logged).
 */
 
 /**
@@ -315,7 +315,7 @@
 * @return {Boolean} Whether or not hover effects are currently suspended.
 */
 
-/*
+/**
 * Sets whether or not hover effects should be suspended. jsPlumb uses this internally during various
 * drag/drop operations, and it is exposed because it might also be useful for you too.
 * @method setHoverSuspended
@@ -489,6 +489,48 @@
 */
 
 /**
+ * Sets the source scope of some element that has been configured as a connection source with `makeSource`
+ * @method setSourceScope
+ * @param {Element|String} el Element to set source scope for.
+ * @param {String} Space delimited list of scopes. Note, though, that multiple scopes is supported by the jquery flavour only programmatcally, not with drag/drop connections.
+ */
+
+/**
+ * Sets the target scope of some element that has been configured as a connection source with `makeTarget`
+ * @method setTargetScope
+ * @param {Element|String} el Element to set target scope for.
+ * @param {String} Space delimited list of scopes. Note, though, that multiple scopes is supported by the jquery flavour only programmatcally, not with drag/drop connections.
+ */
+
+/**
+ * Sets the source and target scope of some element that has been configured as a connection source and target with `makeTarget` and `makeSource`. If the element is only a source or only a target, this method will just set what it can.
+ * @method setScope
+ * @param {Element|String} el Element to set source and target scope for.
+ * @param {String} Space delimited list of scopes. Note, though, that multiple scopes is supported by the jquery flavour only programmatcally, not with drag/drop connections.
+ */
+
+/**
+ * Gets the source scope of some element that has that has been configured as a connection source with `makeSource`
+ * @method getSourceScope
+ * @param {Element|String} Element to get source scope for.
+ * @return {String} Source scope, or the default scope if nothing was explicitly set.
+ */
+
+/**
+ * Gets the target scope of some element that has that has been configured as a connection source with `makeTarget`
+ * @method getTargetScope
+ * @param {Element|String} Element to get target scope for.
+ * @return {String} Target scope, or the default scope if nothing was explicitly set.
+ */
+
+/**
+ * Gets the source or target scope of some element that has that has been configured as a connection source with `makeTarget` and/or `makeSource`, defaulting to the source scope if the element has been configured for both.
+ * @method getScope
+ * @param {Element|String} Element to get source or target scope for.
+ * @return {String} Source or Target scope (you will get Source if the element is both a source and a target), or the default scope if nothing was explicitly set.
+ */
+
+/**
 * Sets the enabled state of one or more elements that were previously made a connection source with the makeSource
 * method.
 * @method setSourceEnabled
@@ -557,12 +599,18 @@
 */
 
 /**
-* Repaints an element and its connections. This method gets new sizes for the elements before painting anything.
+* Repaints an element and its connections.
 * @method repaint
 * @param {String|Element|Selector} el The element in question.
 * @return {jsPlumbInstance} The current jsPlumb instance.
 * @see jsPlumbInstance#repaintEverything
 */
+
+/**
+ * Clears the offset and size cache for an element, then repaints it and its connections.
+ * @method revalidate
+ * @param {String|Element|Selector} el The element in question.
+ */
 
 /**
 * Repaints all connections and endpoints.

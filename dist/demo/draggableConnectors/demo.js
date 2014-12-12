@@ -1,14 +1,13 @@
 ;(function() {
 
-	var _initialised = false,		
-		listDiv = document.getElementById("list"),
+	var listDiv = document.getElementById("list"),
 
 		showConnectionInfo = function(s) {
-			list.innerHTML = s;
-			list.style.display = "block";
+			listDiv.innerHTML = s;
+			listDiv.style.display = "block";
 		},	
 		hideConnectionInfo = function() {
-			list.style.display = "none";
+			listDiv.style.display = "none";
 		},
 		connections = [],
 		updateConnections = function(conn, remove) {
@@ -37,6 +36,8 @@
 		var instance = jsPlumb.getInstance({
 			DragOptions : { cursor: 'pointer', zIndex:2000 },
 			PaintStyle : { strokeStyle:'#666' },
+            EndpointHoverStyle: { fillStyle:"orange" },
+            HoverPaintStyle: { strokeStyle:"orange" },
 			EndpointStyle : { width:20, height:16, strokeStyle:'#666' },
 			Endpoint : "Rectangle",
 			Anchors : ["TopCenter", "TopCenter"],
@@ -60,6 +61,10 @@
 				// be fired.
 				updateConnections(info.connection, true);
 			});
+
+            instance.bind("click", function(component, originalEvent) {
+                alert("click!")
+            });
 
 			// configure some drop options for use by all endpoints.
 			var exampleDropOptions = {
@@ -133,7 +138,10 @@
 				paintStyle:{ fillStyle:example3Color, opacity:0.5 },
 				isSource:true,
 				scope:'yellow',
-				connectorStyle:{ strokeStyle:example3Color, lineWidth:4 },
+				connectorStyle:{
+                    strokeStyle:example3Color,
+                    lineWidth:4
+                },
 				connector : "Straight",
 				isTarget:true,
 				dropOptions : exampleDropOptions,

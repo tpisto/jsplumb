@@ -9,7 +9,7 @@
 
         
 
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" href="../css/jsplumb.css">
         <link rel="stylesheet" href="../css/jsplumb-doc.css">
     </head>
@@ -130,7 +130,7 @@
 <h3>jsPlumb Events</h3>
 
 <p>To bind an to event on jsPlumb itself (or a jsPlumb instance), use <code>jsPlumb.bind(event, callback)</code>:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">jsPlumb.bind(&quot;connection&quot;, function(info) {
+<div class="highlight"><pre><code class="language-text" data-lang="text">jsPlumb.bind(&quot;connection&quot;, function(info) {
    .. update your model in here, maybe.
 });
 </code></pre></div>
@@ -272,7 +272,7 @@
 <h3>Connection Events</h3>
 
 <p>To bind to an event on a Connection, you also use the <code>bind</code> method:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">var connection = jsPlumb.connect({source:&quot;d1&quot;, target:&quot;d2&quot;});
+<div class="highlight"><pre><code class="language-text" data-lang="text">var connection = jsPlumb.connect({source:&quot;d1&quot;, target:&quot;d2&quot;});
 connection.bind(&quot;click&quot;, function(conn) {
     console.log(&quot;you clicked on &quot;, conn);
 });
@@ -294,7 +294,7 @@ connection.bind(&quot;click&quot;, function(conn) {
 <h3>Endpoint Events</h3>
 
 <p>To bind to an event on a Endpoint, you again use the <code>bind</code> method:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">var endpoint = jsPlumb.addEndpoint(&quot;d1&quot;, { someOptions } );
+<div class="highlight"><pre><code class="language-text" data-lang="text">var endpoint = jsPlumb.addEndpoint(&quot;d1&quot;, { someOptions } );
 endpoint.bind(&quot;click&quot;, function(endpoint) {
     console.log(&quot;you clicked on &quot;, endpoint);
 });
@@ -325,7 +325,7 @@ endpoint.bind(&quot;click&quot;, function(endpoint) {
 <p>Registering event listeners on an Overlay is a slightly different procedure - you provide them as arguments to the Overlay&#39;s constructor.  This is because you never actually act on an Overlay object.  </p>
 
 <p>Here&#39;s how to register a click listener on an Overlay:          </p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">jsPlumb.connect({
+<div class="highlight"><pre><code class="language-text" data-lang="text">jsPlumb.connect({
     source:&quot;el1&quot;,
     target:&quot;el2&quot;,
     overlays:[
@@ -355,10 +355,10 @@ endpoint.bind(&quot;click&quot;, function(endpoint) {
 <h3>Unbinding Events</h3>
 
 <p>On the jsPlumb object and on Connections and Endpoints, you can use the <code>unbind</code> method to remove a listener.  This method either takes the name of the event to unbind:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">jsPlumb.unbind(&quot;click&quot;);
+<div class="highlight"><pre><code class="language-text" data-lang="text">jsPlumb.unbind(&quot;click&quot;);
 </code></pre></div>
 <p>...or no argument, meaning unbind all events:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">var e = jsPlumb.addEndpoint(&quot;someDiv&quot;);
+<div class="highlight"><pre><code class="language-text" data-lang="text">var e = jsPlumb.addEndpoint(&quot;someDiv&quot;);
 e.bind(&quot;click&quot;, function() { ... });
 e.bind(&quot;dblclick&quot;, function() { ... });
 
@@ -370,21 +370,18 @@ e.unbind(&quot;click&quot;);
         </div>
         
         <script type="text/javascript">
-var sc_project=9535223; 
-var sc_invisible=1; 
-var sc_security="4906ec12"; 
-var scJsHost = (("https:" == document.location.protocol) ?
-"https://secure." : "http://www.");
-document.write("<sc"+"ript type='text/javascript' src='" +
-scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
-</script>
-<noscript><div class="statcounter"><a title="free hit
-counter" href="http://statcounter.com/free-hit-counter/"
-target="_blank"><img class="statcounter"
-src="http://c.statcounter.com/9535223/0/4906ec12/1/"
-alt="free hit counter"></a></div></noscript>
 
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15400992-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
 
     </body>
 </html>

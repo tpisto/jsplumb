@@ -9,7 +9,7 @@
 
         
 
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" href="../css/jsplumb.css">
         <link rel="stylesheet" href="../css/jsplumb-doc.css">
     </head>
@@ -160,7 +160,7 @@ jsPlumb.connect({
 });
 </pre></p></li>
 <li><p>Connect window3 to window4 with a 10px wide blue-ish half transparent Bezier. Put Endpoints underneath the element they attach to.  The Endpoints have a radial gradient. Both ways of specifying gradient positioning are shown here.</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">var w34Stroke = &#39;rgba(50, 50, 200, 1)&#39;;
+<div class="highlight"><pre><code class="language-text" data-lang="text">var w34Stroke = &#39;rgba(50, 50, 200, 1)&#39;;
 var w34HlStroke = &#39;rgba(180, 180, 200, 1)&#39;;
 jsPlumb.connect( {
   source:&#39;window3&#39;,
@@ -172,7 +172,7 @@ jsPlumb.connect( {
 });
 </code></pre></div></li>
 <li><p>Connect window2 to window3 with an 8px red Bezier and default rectangular endpoints.  See also how the first Anchor is specified here - this is how you create Anchors in locations jsPlumb does not offer shortcuts for.  The Endpoints in this example have linear gradients applied.</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">var w23Stroke = &#39;rgb(189,11,11)&#39;;
+<div class="highlight"><pre><code class="language-text" data-lang="text">var w23Stroke = &#39;rgb(189,11,11)&#39;;
 jsPlumb.connect({
     source:&#39;window2&#39;,
     target:&#39;window3&#39;,
@@ -253,21 +253,18 @@ jsPlumb.connect({
         </div>
         
         <script type="text/javascript">
-var sc_project=9535223; 
-var sc_invisible=1; 
-var sc_security="4906ec12"; 
-var scJsHost = (("https:" == document.location.protocol) ?
-"https://secure." : "http://www.");
-document.write("<sc"+"ript type='text/javascript' src='" +
-scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
-</script>
-<noscript><div class="statcounter"><a title="free hit
-counter" href="http://statcounter.com/free-hit-counter/"
-target="_blank"><img class="statcounter"
-src="http://c.statcounter.com/9535223/0/4906ec12/1/"
-alt="free hit counter"></a></div></noscript>
 
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15400992-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
 
     </body>
 </html>

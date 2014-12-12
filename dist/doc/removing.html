@@ -9,7 +9,7 @@
 
         
 
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" href="../css/jsplumb.css">
         <link rel="stylesheet" href="../css/jsplumb-doc.css">
     </head>
@@ -109,7 +109,7 @@
 <h5>Detaching a single connection</h5>
 
 <p>To remove a single Connection, use <code>jsPlumb.detach</code>:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">var conn = jsPlumb.connect({ some params});
+<div class="highlight"><pre><code class="language-text" data-lang="text">var conn = jsPlumb.connect({ some params});
 ...
 jsPlumb.detach(conn);
 </code></pre></div>
@@ -131,7 +131,7 @@ jsPlumb.detach(conn);
 <h5>Detaching all Connections from a single element</h5>
 
 <p>To detach all the Connections from some given element:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">jsPlumb.detachAllConnections(el, [params])
+<div class="highlight"><pre><code class="language-text" data-lang="text">jsPlumb.detachAllConnections(el, [params])
 </code></pre></div>
 <p><strong>el</strong> may be:</p>
 
@@ -150,7 +150,7 @@ jsPlumb.detach(conn);
 <h4>Detaching all Connections from every element</h4>
 
 <p>To detach every Connection in jsPlumb:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">jsPlumb.detachEveryConnection();
+<div class="highlight"><pre><code class="language-text" data-lang="text">jsPlumb.detachEveryConnection();
 </code></pre></div>
 <p>This leaves all Endpoints in place according to the deletion rules outlined in the description of <code>jsPlumb.detach</code> above.</p>
 
@@ -159,7 +159,7 @@ jsPlumb.detach(conn);
 <h5>Deleting a single Endpoint</h5>
 
 <p>To delete a single Endpoint:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">var ep = jsPlumb.addEndpoint(someElement, { ... });
+<div class="highlight"><pre><code class="language-text" data-lang="text">var ep = jsPlumb.addEndpoint(someElement, { ... });
 ...
 jsPlumb.deleteEndpoint(ep);
 </code></pre></div>
@@ -173,7 +173,7 @@ jsPlumb.deleteEndpoint(ep);
 <h5>Deleting every Endpoint</h5>
 
 <p>To delete every Endpoint in jsPlumb:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">jsPlumb.deleteEveryEndpoint();
+<div class="highlight"><pre><code class="language-text" data-lang="text">jsPlumb.deleteEveryEndpoint();
 </code></pre></div>
 <p>This has the effect of removing every Endpoint and also every Connection. </p>
 
@@ -183,21 +183,18 @@ jsPlumb.deleteEndpoint(ep);
         </div>
         
         <script type="text/javascript">
-var sc_project=9535223; 
-var sc_invisible=1; 
-var sc_security="4906ec12"; 
-var scJsHost = (("https:" == document.location.protocol) ?
-"https://secure." : "http://www.");
-document.write("<sc"+"ript type='text/javascript' src='" +
-scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
-</script>
-<noscript><div class="statcounter"><a title="free hit
-counter" href="http://statcounter.com/free-hit-counter/"
-target="_blank"><img class="statcounter"
-src="http://c.statcounter.com/9535223/0/4906ec12/1/"
-alt="free hit counter"></a></div></noscript>
 
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15400992-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
 
     </body>
 </html>

@@ -54,6 +54,14 @@
 */
 
 /**
+ * Adds/removes classes at the same time, which reduces the number of reflows that occur in the page. Either parameter
+ * may be null but of course if you pass only a single parameter to this method then it will be taken to be classesToAdd.
+ * @method updateClasses
+ * @param {String|String[]} [classesToAdd]
+ * @param {String|String[]} [classesToRemove]
+ */
+
+/**
 * This function sets a `type` for the given component. It replaces all existing types. For a full discussion of the concept
 * of types, see the jsPlumb documentation.
 * @method setType
@@ -66,6 +74,12 @@
 * Gets the current type - or types - for this component.
 * @method getType
 * @return {String[]} The current list of types, empty if none registered.
+*/
+
+/**
+* Clears all `types` for a given component.
+* @method clearTypes
+* @param {Boolean} [doNotRepaint=false] Tells jsPlumb not to repaint after clearing the types.
 */
 
 /**

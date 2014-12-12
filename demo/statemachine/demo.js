@@ -1,11 +1,11 @@
 jsPlumb.ready(function() {
-					
-	// setup some defaults for jsPlumb.	
+
+	// setup some defaults for jsPlumb.
 	var instance = jsPlumb.getInstance({
 		Endpoint : ["Dot", {radius:2}],
 		HoverPaintStyle : {strokeStyle:"#1e8151", lineWidth:2 },
 		ConnectionOverlays : [
-			[ "Arrow", { 
+			[ "Arrow", {
 				location:1,
 				id:"arrow",
                 length:14,
@@ -16,16 +16,18 @@ jsPlumb.ready(function() {
 		Container:"statemachine-demo"
 	});
 
+    window.jsp = instance;
+
 	var windows = jsPlumb.getSelector(".statemachine-demo .w");
 
-    // initialise draggable elements.  
+    // initialise draggable elements.
 	instance.draggable(windows);
 
     // bind a click listener to each connection; the connection is deleted. you could of course
 	// just do this: jsPlumb.bind("click", jsPlumb.detach), but I wanted to make it clear what was
 	// happening.
-	instance.bind("click", function(c) { 
-		instance.detach(c); 
+	instance.bind("click", function(c) {
+		instance.detach(c);
 	});
 
 	// bind a connection listener. note that the parameter passed to this function contains more than
@@ -84,9 +86,10 @@ jsPlumb.ready(function() {
 	// initialise all '.w' elements as connection targets.
 	instance.makeTarget(windows, {
 		dropOptions:{ hoverClass:"dragHover" },
-		anchor:"Continuous"				
+		anchor:"Continuous",
+		allowLoopback:true
 	});
-	
+
 	// and finally, make a couple of connections
 	instance.connect({ source:"opened", target:"phone1" });
 	instance.connect({ source:"phone1", target:"phone1" });

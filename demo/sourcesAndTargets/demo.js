@@ -57,7 +57,8 @@ jsPlumb.ready(function() {
 				var t = evt.target || evt.srcElement;
 				return t.tagName !== "A";
 			},
-			isSource:true
+			isSource:true,
+            maxConnections:-1
 		});			
         
 		// configure the .smallWindows as targets.
@@ -69,7 +70,7 @@ jsPlumb.ready(function() {
 
         // and finally connect a couple of small windows, just so its obvious what's going on when this demo loads.           
         instance.connect({ source:"sourceWindow1", target:"targetWindow5" });
-        instance.connect({ source:"sourceWindow1", target:"targetWindow2" });	
+        instance.connect({ source:"sourceWindow1", target:"targetWindow2" });
 	});
 
 	jsPlumb.fire("jsPlumbDemoLoaded", instance);

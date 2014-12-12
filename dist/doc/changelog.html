@@ -9,7 +9,7 @@
 
         
 
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" href="../css/jsplumb.css">
         <link rel="stylesheet" href="../css/jsplumb-doc.css">
     </head>
@@ -100,7 +100,118 @@
 </ul>
             </div>
             <div class="markdown-body">
-                <h2>1.6.2</h2>
+                <h2>1.7.2</h2>
+
+<h3>Changes between 1.7.1 and 1.7.2</h3>
+
+<ul>
+<li>Reverted a minor bugfix introduced by the fix for issue 276</li>
+<li>Updated continuous anchors to allow for several Continuous anchors to be in use on the one element.</li>
+</ul>
+
+<h2>1.7.1</h2>
+
+<h3>Changes between 1.7.0 and 1.7.1</h3>
+
+<h4>Issues</h4>
+
+<ul>
+<li><strong>276</strong> - TypeError on dragging empty target endpoint</li>
+</ul>
+
+<h2>1.7.0</h2>
+
+<h3>Changes between 1.6.4 and 1.7.0</h3>
+
+<h4>Backwards Compatibility</h4>
+
+<ul>
+<li><p>Perhaps the biggest change between 1.6.4 and 1.7.0 is that YUI and MooTools are no longer supported.  It is recommended you use vanilla jsPlumb now. jQuery is still supported but it is neither as fast nor does it have as many features as vanilla jsPlumb.</p></li>
+<li><p>The <code>parent</code> argument to the <code>makeSource</code> function is no longer supported. It was being kept because neither YUI nor MooTools have the ability to support a drag filter, but now that those libraries are not supported this feature has been removed.  The <code>filter</code> approach is much more powerful.</p></li>
+</ul>
+
+<h4>New Functionality</h4>
+
+<p>Perhaps not strictly new functionality, but shiny enough to warrant being associated with the word &quot;new&quot;, is the fact that jsPlumb 1.7.0 is considerably faster than any previous version.  A rough comparison: the default settings for the load test in jsPlumb generate 360 connections in total between 10 elements. in 1.6.4 this test averages about 1600ms in Chrome on a Mac.  In 1.7.0 that number is about 600ms on the same computer.</p>
+
+<h4>Issues</h4>
+
+<ul>
+<li><strong>178</strong> - Detachable endpoints: different behaviour between connect() and mouse-based connections</li>
+<li><strong>214</strong> - Endpoint stays visible when should be terminated (right mouse button)</li>
+<li><strong>242</strong> - Distinguish drag\click for Vanilla jsPlumb</li>
+<li><strong>245</strong> - reinstate isConnectedTo method on Endpoint</li>
+<li><strong>246</strong> - outlineColor ignored when gradient defined in paintStyle<br></li>
+<li><strong>248</strong> - dynamic anchor create fail</li>
+<li><strong>257</strong> - allow for the scope of a makeSource element to be changed</li>
+<li><strong>258</strong> - Typo in documentation: s/container/Container </li>
+<li><strong>260</strong> - isSource and isTarget usage with makeSource and makeTarget causes broken connections</li>
+<li><strong>261</strong> - Two target endpoints close to each other: &quot;TypeError: Cannot read property &#39;0&#39; of null&quot;</li>
+<li><strong>262</strong> - hoverPaintStyle only works for the first connection (maxConnections &gt; 1) </li>
+<li><strong>263</strong> - TypeError: conn.endpoints is null</li>
+<li><strong>267</strong> - continuous anchors with faces set do not paint on selected faces when not connected to anything</li>
+<li><strong>268</strong> - Endpoint &quot;Blank&quot; generates endpoint with class &quot;undefined&quot;</li>
+<li><strong>269</strong> - Source endpoint does not/cannot respect uniqueEndpoint setting</li>
+<li><strong>270</strong> - Support <code>endpointStyle</code> in args to addEndpoint and makeSource/makeTarget</li>
+</ul>
+
+<h2>1.6.4</h2>
+
+<h3>Changes between 1.6.3 and 1.6.4</h3>
+
+<h4>Backwards Compatibility</h4>
+
+<ul>
+<li>No issues</li>
+</ul>
+
+<h4>New Functionality</h4>
+
+<ul>
+<li>Connection types support &#39;anchor&#39; and &#39;anchors&#39; parameters now.</li>
+</ul>
+
+<h4>Miscellaneous</h4>
+
+<ul>
+<li>YUI adapter now sets a &#39;base&#39; url and retrieves everything via https.</li>
+</ul>
+
+<h2>1.6.3</h2>
+
+<h3>Changes between 1.6.2 and 1.6.3</h3>
+
+<h4>Backwards Compatibility</h4>
+
+<ul>
+<li>No issues</li>
+</ul>
+
+<h4>New Functionality</h4>
+
+<ul>
+<li>Added optional <code>allowLoopback</code> boolean parameter to vanilla jsPlumb&#39;s <code>makeTarget</code> method. </li>
+<li>When using parameterized types, unmatched values are now replaced with blank strings, rather than being left in place. For instance, if you had <code>label=&quot;${foo}&quot;</code>, and you passed a blank &#39;foo&#39; value, you used to see <code>&quot;${foo}&quot;</code>. Now you see <code>&quot;&quot;</code>.</li>
+<li>You can set <code>visible:false</code> on an overlay spec, to have it initially invisible.</li>
+<li>Added <code>setHoverEnabled</code> method to jsPlumb.</li>
+<li>Added <code>clearTypes</code> method to Connection and Endpoint</li>
+<li>Connection and Endpoint types now support <code>cssClass</code> property. These are merged into an array if multiple types declare a cssClass.</li>
+</ul>
+
+<h3>Issues</h3>
+
+<ul>
+<li><strong>222</strong> - Endpoints incorrectly calculated when the anchor faces of source/target are set to left/right</li>
+<li><strong>223</strong> - beforeDetach not fired by jsPlumb</li>
+<li><strong>224</strong> - endpointStyle of the jsPlumb.connect method does not work</li>
+<li><strong>227</strong> - MaxConnections=1 console log error</li>
+<li><strong>230</strong> - Endpoints not cleaned up after connector move</li>
+<li><strong>236</strong> - makeTarget/makeSource drag issues</li>
+<li><strong>241</strong> - Dropping existing connection creates an orphaned endpoint when beforeDrop returns false</li>
+<li><strong>243</strong> - setConnector not correctly re-assigning event handler on overlays</li>
+</ul>
+
+<h2>1.6.2</h2>
 
 <h3>Changes between 1.6.1 and 1.6.2</h3>
 
@@ -406,21 +517,18 @@
         </div>
         
         <script type="text/javascript">
-var sc_project=9535223; 
-var sc_invisible=1; 
-var sc_security="4906ec12"; 
-var scJsHost = (("https:" == document.location.protocol) ?
-"https://secure." : "http://www.");
-document.write("<sc"+"ript type='text/javascript' src='" +
-scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
-</script>
-<noscript><div class="statcounter"><a title="free hit
-counter" href="http://statcounter.com/free-hit-counter/"
-target="_blank"><img class="statcounter"
-src="http://c.statcounter.com/9535223/0/4906ec12/1/"
-alt="free hit counter"></a></div></noscript>
 
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15400992-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
 
     </body>
 </html>
