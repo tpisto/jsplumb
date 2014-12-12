@@ -12,6 +12,6 @@
         "components/jquery": "*",
         "components/jqueryui": "1.10.4"
     },
-    "scripts": ["dist/js/jquery.jsPlumb-1.7.2-min.js"],
+    "scripts": ["dist/js/jquery.jsPlumb-1.7.2-min.js", "dist/js/dom.jsPlumb-1.7.2-min.js"],
     "main": "dist/js/jquery.jsPlumb-1.7.2-min.js"
 }
