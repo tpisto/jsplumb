@@ -1,7 +1,7 @@
 {
     "name": "jsplumb",
     "description": "pipe up your life",
-    "version": "1.6.2",
+    "version": "1.7.2",
     "keywords": [
         "javascript",
         "awesome",
@@ -12,6 +12,6 @@
         "components/jquery": "*",
         "components/jqueryui": "1.10.4"
     },
-    "scripts": ["dist/js/jquery.jsPlumb-1.6.2-min.js"],
-    "main": "dist/js/jquery.jsPlumb-1.6.2-min.js"
+    "scripts": ["dist/js/jquery.jsPlumb-1.7.2-min.js"],
+    "main": "dist/js/jquery.jsPlumb-1.7.2-min.js"
 }
